@@ -254,7 +254,7 @@
               </p>
             </a>
           </li>
-          {{-- <li class="nav-item">
+          <li class="nav-item">
             <a href="{{ url('catalog') }}" class="nav-link {{ request()->is('catalog') ? 'active' : ''}}">
               <i class="fa-solid fa-tag"></i>
               <p>
@@ -271,14 +271,6 @@
                 <span class="right badge badge-danger">New</span>
               </p>
             </a>
-            <li class="nav-item">
-              <a href="{{ url('member') }}" class="nav-link" {{ request()->is('member') ? 'active' : ''}}>
-                <i class="fa-solid fa-users"></i>
-                <p>
-              member
-                  <span class="right badge badge-danger">New</span>
-                </p>
-              </a>
           
           <li class="nav-item">
             <a href="{{ url('book') }}" class="nav-link" {{ request()->is('book') ? 'active' : ''}}>
@@ -288,7 +280,7 @@
                 <span class="right badge badge-danger">New</span>
               </p>
             </a>
-          </li> --}}
+          </li>
           {{-- <li class="nav-item">
             <a href="#" class="nav-link">
               <i class="nav-icon fas fa-copy"></i>
@@ -898,7 +890,7 @@
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
-            <h1 class="m-0">Dashboard</h1>
+            <h1 class="m-0">@yield('header')</h1>
           </div><!-- /.col -->
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
