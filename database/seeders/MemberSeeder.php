@@ -2,12 +2,12 @@
 
 namespace Database\Seeders;
 
-use App\Models\publisher;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use App\Models\Member;
 use faker\Factory as Faker;
 use Illuminate\Database\Seeder;
 
-class PublisherSeeder extends Seeder
+class MemberSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -19,17 +19,18 @@ class PublisherSeeder extends Seeder
         $faker = Faker::create();
 
         for ($i = 0; $i < 20; $i++) {
-            $author = new Publisher;
+            $author = new Member;
 
             $author->name = $faker->name;
-            $author->phone_number = '0821'.$faker->randomNumber(8);
+            $author->gender =  rand(1,2);
+            $author->phone_number = '0821' . $faker->randomNumber(8);
             $author->addres = $faker->address;
             $author->email = $faker->email;
-            $author->created_at= $faker->date;
+            $author->created_at = $faker->date;
             $author->updated_at = $faker->date;
 
-
             $author->save();
+
         }
     }
 }
