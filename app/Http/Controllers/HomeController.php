@@ -3,6 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Models\Book;
+use App\Models\TransactionDetail;
+use App\Models\Catalog;
+use App\Models\Author;
+use App\Models\Publisher;
+use App\Models\User;
 use App\Models\Transaction;
 use App\Models\Member;
 use Illuminate\Http\Request;
