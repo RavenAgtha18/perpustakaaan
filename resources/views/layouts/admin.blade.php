@@ -255,7 +255,7 @@
             </a>
           </li>
           <li class="nav-item">
-            <a href="{{ url('catalog') }}" class="nav-link {{ request()->is('catalog') ? 'active' : ''}}">
+            <a href="{{ url('catalogs') }}" class="nav-link {{ request()->is('catalogs') ? 'active' : ''}}">
               <i class="fa-solid fa-tag"></i>
               <p>
             catalog
@@ -264,7 +264,7 @@
             </a>
           </li>
           <li class="nav-item">
-            <a href="{{ url('publisher') }}" class="nav-link" {{ request()->is('publisher') ? 'active' : ''}}>
+            <a href="{{ url('publishers') }}" class="nav-link" {{ request()->is('publishers') ? 'active' : ''}}>
               <i class="fa-solid fa-users"></i>
               <p>
             publisher
@@ -273,7 +273,7 @@
             </a>
           
           <li class="nav-item">
-            <a href="{{ url('book') }}" class="nav-link" {{ request()->is('book') ? 'active' : ''}}>
+            <a href="{{ url('books') }}" class="nav-link" {{ request()->is('books') ? 'active' : ''}}>
               <i class="fa-solid fa-fish"></i>
               <p>
             book 
@@ -282,7 +282,7 @@
             </a>
           </li>
           <li class="nav-item">
-            <a href="{{ url('member') }}" class="nav-link" {{ request()->is('member') ? 'active' : ''}}>
+            <a href="{{ url('members') }}" class="nav-link" {{ request()->is('members') ? 'active' : ''}}>
               <i class="fa-solid fa-fish"></i>
               <p>
             member
@@ -291,7 +291,7 @@
             </a>
           </li>
           <li class="nav-item">
-            <a href="{{ url('transaction') }}" class="nav-link" {{ request()->is('transaction') ? 'active' : ''}}>
+            <a href="{{ url('transactions') }}" class="nav-link" {{ request()->is('transactions') ? 'active' : ''}}>
               <i class="fa-solid fa-fish"></i>
               <p>
             transaction

@@ -30,6 +30,7 @@ class HomeController extends Controller
      */
     public function index()
     {
+        return view('home');
         //no 1
 
         $data = Member::select('*')
