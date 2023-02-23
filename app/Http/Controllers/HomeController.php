@@ -7,6 +7,7 @@ use App\Models\Book;
 use App\Models\Publisher;
 use App\Models\Author;
 use App\Models\Catalog;
+use App\Models\Transaction;
 use App\Models\Lend;
 use Illuminate\Http\Request;
 
@@ -29,215 +30,120 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('home');
-    }
-    public function index_new($tabel)
-    {
-        switch ($tabel) {
-            case "members":
-                $members = Member::all();
-                return $members;
-                break;
-            case "members-user":
-                $members = Member::with("user")->get();
-                return $members;
-                break;
-            case "books":
-                $books = Book::all();
-                return $books;
-                break;
-            case "books-author":
-                $books = Book::with("author")->get();
-                return $books;
-                break;
-            case "books-publisher":
-                $books = Book::with("publisher")->get();
-                return $books;
-                break;
-            case "books-catalog":
-                $books = Book::with("catalog")->get();
-                return $books;
-                break;
-            case "author":
-                $author = Author::all();
-                return $author;
-                break;
-            case "author-books":
-                $author = Author::with("books")->get();
-                return $author;
-                break;
-            case "publisher":
-                $publisher = Publisher::all();
-                return $publisher;
-                break;
-            case "publisher-books":
-                $publisher = Publisher::with("books")->get();
-                return $publisher;
-                break;
-            case "catalog":
-                $catalog = Catalog::all();
-                return $catalog;
-                break;
-            case "catalog-books":
-                $catalog = Catalog::with("books")->get();
-                return $catalog;
-                break;
-            
-            default:
-                return view('home');
-                break;
-        }
-    }
-    public function query($query)
-    {
-        $data = "[]";
-        switch ($query) {
-            case "1":
-                $data = Member::select("*")
-                            ->join("users", "users.member_id", "=", "members.id")
-                            ->get();
-                break;
-            case "2":
-                $data = Member::select("*")
-                            ->leftJoin("users", "users.member_id", "=", "members.id")
-                            ->where("users.id", null)
-                            ->get();
-                break;
-            case "3":
-                $data = Member::select("members.id", "members.name")
-                            ->join("lends", "lends.member_id", "=", "members.id")
-                            ->where("lends.id", null)
-                            ->get();
-                break;
-            case "4":
-                $data = Member::select("members.id", "members.name", "members.phone_number")
-                            ->join("lends", "lends.member_id", "=", "members.id")
-                            ->where("lends.id", "!=", null)
-                            ->get();
-                break;
-            case "5":
-                $data = Member::select("members.id", "members.name", "members.phone_number")
-                            ->join("lends", "lends.member_id", "=", "members.id")
-                            ->where("lends.qty", ">", 1)
-                            ->get();
-                break;
-            case "6":
-                $data = Lend::select("members.name", "members.phone_number", "members.address", "lends.date_start", "lends.date_end")
-                            ->join("members", "members.id", "=", "lends.member_id")
-                            ->get();
-                break;
-            case "7":
-                $data = Lend::select("members.name", "members.phone_number", "members.address", "lends.date_start", "lends.date_end")
-                            ->join("members", "members.id", "=", "lends.member_id")
-                            ->whereMonth("lends.date_end", 06)
-                            ->get();
-                break;
-            case "8":
-                $data = Lend::select("members.name", "members.phone_number", "members.address", "lends.date_start", "lends.date_end")
-                            ->join("members", "members.id", "=", "lends.member_id")
-                            ->whereMonth("lends.date_start", 07)
-                            ->get();
-                break;
-            case "9":
-                $data = Lend::select("members.name", "members.phone_number", "members.address", "lends.date_start", "lends.date_end")
-                            ->join("members", "members.id", "=", "lends.member_id")
-                            ->whereMonth("lends.date_start", 06)
-                            ->whereMonth("lends.date_end", 06)
-                            ->get();
-                break;
-            case "10":
-                $data = Lend::select("members.name", "members.phone_number", "members.address", "lends.date_start", "lends.date_end")
-                            ->join("members", "members.id", "=", "lends.member_id")
-                            ->where("members.address", "LIKE", "%Bandung%")
-                            ->get();
-                break;
-            case "11":
-                $data = Lend::select("members.name", "members.phone_number", "members.address", "lends.date_start", "lends.date_end")
-                            ->join("members", "members.id", "=", "lends.member_id")
-                            ->where("members.address", "LIKE", "%Bandung%")
-                            ->where("members.gender", "P")
-                            ->get();
-                break;
-            case "12":
-                $data = Lend::select("members.name", "members.phone_number", "members.address", "lends.date_start", "lends.date_end", "books.isbn" , "lends.qty")
-                            ->join("members", "members.id", "=", "lends.member_id")
-                            ->join("books", "books.id", "=", "lends.book_id")
-                            ->where("lends.qty", ">", 1)
-                            ->get();
-                break;
-            case "13":
-                $data = Lend::select("members.name", "members.phone_number", "members.address", "lends.date_start", "lends.date_end",
-                            "books.isbn" , "lends.qty", "books.title", "books.price", "lends.qty * books.price as total")
-                            ->join("members", "members.id", "=", "lends.member_id")
-                            ->join("books", "books.id", "=", "lends.book_id")
-                            ->get();
-                break;
-            case "14":
-                $data = Lend::select("members.name", "members.phone_number", "members.address", "lends.date_start", "lends.date_end", 
-                            "books.isbn" , "lends.qty", "books.title", "books.price", "publishers.name", "authors.name", "catalogs.name")
-                            ->join("members", "members.id", "=", "lends.member_id")
-                            ->join("books", "books.id", "=", "lends.book_id")
-                            ->join("publishers", "publishers.id", "=", "books.publisher_id")
-                            ->join("authors", "authors.id", "=", "books.author_id")
-                            ->join("catalogs", "catalogs.id", "=", "books.catalog_id")
-                            ->get();
-                break;
-            case "15":
-                $data = Book::select("catalogs.*", "books.title")
-                            ->join("catalogs", "catalogs.id", "=", "books.catalog_id")
-                            ->get();
-                break;
-            case "16":
-                $data = Book::select("*", "publishers.name")
-                            ->rightJoin("publishers", "publishers.id", "=", "books.publisher_id")
-                            ->get();
-                break;
-            case "17":
-                $data = Book::select("author_id")
-                            ->count()
-                            ->where("author_id", "PG05")
-                            ->get();
-                break;
-            case "18":
-                $data = Book::select("*")
-                            ->where("price", ">", 10000)
-                            ->get();
-                break;
-            case "19":
-                $data = Book::select("*")
-                            ->join("publishers", "publishers.id", "=", "books.publishers_id")
-                            ->where("publishers.name", "Penerbit 01")
-                            ->get();
-                break;
-            case "20":
-                $data = Member::select("*")
-                            ->whereMonth("created_at", "06")
-                            ->get();
-                break;
-            default:
-                $data = "[]";
-                break;
-        }
-        return $data;
-        
-    }
-    public function notification()
-    {
-        $lends = Lend::select("lends.*", "members.name")
-                ->join("members", "members.id", "=", "lends.member_id")
+        //no 1
+
+        $data = Member::select('*')
+                ->join('users','users.member_id','=','members.id')
                 ->get();
-        $notif = [];
-        foreach ($lends as $lend) {
-            if (!$lend->book_return) {
-                $this_date = date_create();
-                $end_date = date_create($lend->date_end);
-                if ($this_date > $end_date) {
-                    $diff = date_diff($this_date, $end_date);
-                    $message = $lend->name . $diff->format(" exceeded the time limit of %a days");
-                    array_push($notif, $message);
-                };
-            };
-        };
-        return $notif;
+        //no 2
+        $data2 = Member::select('*')
+                ->leftjoin('users','users.member_id','=','members.id')
+                ->where('users.id',NULL)
+                ->get();
+        //no 3
+        $data3 = Transaction::select('member_id')
+                ->rightjoin('members','member_id','=','transactions.member_id')
+                ->where('transactions.member_id',NULL)
+                ->get();
+         //no 4
+         $data4 = Member::select('members.id','members.name','members.phone_number')
+                ->join('transactions','transactions.member_id','=','members.id')
+                ->orderby('members.id','asc')
+                ->get();
+        //no 5
+        $data5 = Member::select('members.id','members.name','members.phone_number')
+                ->join('transactions','transactions.member_id','=','members.id')
+                ->orderby('members.id','asc')
+                ->where('transactions.member_id', '>', 1)
+                ->get();
+        //no 6
+         $data6  = Member::select('members.name','members.phone_number','members.addres','transactions.date_start','transactions.date_end')
+                ->join('transactions','transactions.member_id','=','members.id')
+                ->orderby('members.id','asc')
+                ->get();
+        //no7
+        $data7  = Member::select('members.name','members.phone_number','members.addres','transactions.date_start','transactions.date_end')
+                ->join('transactions','transactions.member_id','=','members.id')
+                ->orderby('members.id','asc')
+                ->whereRaw('MONTH(transactions.date_end) > 6')
+                ->get();
+        //no 8
+        $data8  = Member::select('members.name','members.phone_number','members.addres','transactions.date_start','transactions.date_end')
+              ->join('transactions', 'transactions.member_id', '=', 'members.id')
+              ->whereMonth('transactions.date_start', '<', '5')
+              ->get();
+        //no 9
+        $data9  = Member::select('members.name','members.phone_number','members.addres','transactions.date_start','transactions.date_end')
+                ->join('transactions', 'transactions.member_id', '=', 'members.id')
+                ->whereMonth('transactions.date_start', '<', '1')
+                ->whereMonth('transactions.date_end', '>', '12')
+                ->get();
+         //no 10
+         $data10  = Member::select('members.name','members.phone_number','members.addres','transactions.date_start','transactions.date_end')
+                ->join('transactions', 'transactions.member_id', '=', 'members.id')
+                ->where('members.addres', 'lIKE', '%Effertzmouth%')
+                ->get();
+         //no 11
+         $data11  = Member::select('members.name','members.phone_number','members.addres','transactions.date_start','transactions.date_end')
+                ->join('transactions', 'transactions.member_id', '=', 'members.id')
+                ->where('members.addres', 'lIKe', '%Effertzmouth%')
+                ->where('members.gender', 'lIKE', '%1%')
+                ->get();
+         //no12
+         $data12  = Member::select('members.name','members.phone_number','members.addres','transactions.date_start','transactions.date_end')
+                ->join('transactions','transactions.member_id','=','members.id')
+                ->orderby('members.id','asc')
+                ->whereRaw('MONTH(transactions.date_end) > 6')
+                ->get();
+          //no 13
+         $data13 = Member::select('members.id','members.name','members.phone_number')
+                ->join('transactions','transactions.member_id','=','members.id')
+                ->orderby('members.id','asc')
+                ->where('transactions.member_id', '>', 1)
+                ->get();
+         //no 14
+         $data14 = Member::select('*')
+                ->leftjoin('users','users.member_id','=','members.id')
+                ->where('users.id',NULL)
+                ->get();
+         //no 15
+        $data15  = Member::select('members.name','members.phone_number','members.addres','transactions.date_start','transactions.date_end')
+                ->join('transactions', 'transactions.member_id', '=', 'members.id')
+                ->whereMonth('transactions.date_start', '<', '5')
+                ->get();
+         //no 16
+         $data16  = Member::select('members.name','members.phone_number','members.addres','transactions.date_start','transactions.date_end')
+                ->join('transactions', 'transactions.member_id', '=', 'members.id')
+                ->where('members.addres', 'lIKe', '%Effertzmouth%')
+                ->where('members.gender', 'lIKE', '%1%')
+                ->get();
+         //no 17
+         $data17  = Member::select('members.name','members.phone_number','members.addres','transactions.date_start','transactions.date_end')
+                ->join('transactions', 'transactions.member_id', '=', 'members.id')
+                ->where('members.addres', 'lIKe', '%Effertzmouth%')
+                ->where('members.gender', 'lIKE', '%1%')
+                ->get();
+        //no 18
+         $data18 = Member::select('members.name','members.phone_number','members.addres','transactions.date_start','transactions.date_end')
+                ->join('transactions','transactions.member_id','=','members.id')
+                ->orderby('members.id','asc')
+                ->whereRaw('MONTH(transactions.date_end) > 6')
+                ->get();
+                
+
+         //no 19
+         $data19  = Member::select('members.name','members.phone_number','members.addres','transactions.date_start','transactions.date_end')
+                ->join('transactions', 'transactions.member_id', '=', 'members.id')
+                ->whereMonth('transactions.date_start', '<', '5')
+                ->get();
+         //no 20
+         $data20  = Member::select('members.name','members.phone_number','members.addres','transactions.date_start','transactions.date_end')
+                ->join('transactions', 'transactions.member_id', '=', 'members.id')
+                ->whereMonth('transactions.date_start', '<', '5')
+                ->get();       
+
+
+        return $data20;
+        return view('home');
     }
 }
