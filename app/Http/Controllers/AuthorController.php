@@ -14,7 +14,10 @@ class AuthorController extends Controller
      */
     public function index()
     {
-        //
+    
+        $authors = author ::all();
+        // return $catalogs;
+        return view('admin.index', compact('authors'));
     }
 
     /**
@@ -35,7 +38,7 @@ class AuthorController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        
     }
 
     /**

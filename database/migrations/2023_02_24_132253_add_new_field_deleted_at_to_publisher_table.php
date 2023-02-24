@@ -13,11 +13,8 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('catalogs', function (Blueprint $table) {
-            $table->id();
-            $table->string('name', 64);
-            $table->timestamps();
-            $table->string('deleted_at');
+        Schema::table('publishers', function (Blueprint $table) {
+            $table->softDeletes();
         });
     }
 
@@ -28,6 +25,8 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('catalogs');
+        Schema::table('publishers', function (Blueprint $table) {
+            $table->dropColumn('deleted_at');
+        });
     }
 };

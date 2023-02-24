@@ -14,7 +14,10 @@ class publisherController extends Controller
      */
     public function index()
     {
-        return view('admin.publisher.index');
+      
+        $publishers = publisher ::all();
+        // return $catalogs;
+        return view('admin.publisher.index', compact('publishers'));
     }
 
     /**
@@ -24,7 +27,7 @@ class publisherController extends Controller
      */
     public function create()
     {
-        //
+        return view('admin.publisher.create');
     }
 
     /**
@@ -35,7 +38,12 @@ class publisherController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        // $publisher = new publisher;
+        // $publisher->name = $request->name;
+        // $publisher->save();
+        publisher::create($request->all());
+
+        return redirect('publishers');
     }
 
     /**
@@ -57,7 +65,7 @@ class publisherController extends Controller
      */
     public function edit(Publisher $publisher)
     {
-        //
+        return view('admin.publisher.edit', compact('publisher'));
     }
 
     /**
@@ -69,7 +77,12 @@ class publisherController extends Controller
      */
     public function update(Request $request, Publisher $publisher)
     {
-        //
+// $catalog = new catalog;
+        // $catalog->name = $request->name;
+        // $catalog->save();
+        $publisher->update($request->all());
+
+        return redirect('publishers'); 
     }
 
     /**
@@ -80,6 +93,8 @@ class publisherController extends Controller
      */
     public function destroy(Publisher $publisher)
     {
-        //
+        $publisher->delete();
+
+        return redirect('publishers'); 
     }
 }
