@@ -11,7 +11,7 @@
  <div class="card">
 
     <div class="card-header">
-        <a href="#" data-target="#modal-default" data-toggle="modal" class="btn btn-sm btn-primary pull-right">Create new </a>
+      <a href="#" @click="addData()" type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">crete new </a>
     </div>
     <!-- /.card-header -->
     <div class="card-body">
@@ -36,12 +36,10 @@
                 <td>{{ $author->phone_number }}</td>
                 <td>{{ $author->addres }}</td>
                 <td class="text-center">
-                  <a href="{{ url('authors/'.$author->id.'/edit') }}" class="btn btn-warning btn-sm">Edit</a>
-                  <form action="{{ url('authors',['id' => $author->id]) }}" method="post">
-                      <input class="btn btn-danger btn-sm" type="submit" value="Delete" onclick="return confirm('Are you sure?')">
-                      @method('delete')
-                      @csrf
-              </td>
+                  <a href="#" @click="editData({{ $author }})" class="btn btn-sm btn-warning" data-bs-toggle="modal" data-bs-target="#exampleModal">Edit</a>
+                  <a href="#" @click="deleteData({{ $author->id }})" class="btn btn-sm btn-danger">Delete</a>
+                 
+                </td>
             
             </tr>
             @endforeach
@@ -54,8 +52,7 @@
       <div class="modal-dialog">
         <div class="modal-content">
           <form method="post" action="{{ url('authors') }}" autocomplete="off">
-          {{-- <form action="{{ url('publishers') }}" method="post">
-              @csrf --}}
+         
             <div class="modal-header">
               <h4 class="modal-title">author</h4>
               <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -66,9 +63,9 @@
               @csrf
 
               <label for="exampleInputEmail1">Name</label>
-                <input type="text" name="name" class="form-control"  placeholder="Enter Name" required="">
+                <input type="text" name="name" class="form-control" :value="data.name" required="">
                 <label for="exampleInputEmail1">email</label>
-                <input type="email" name="email" class="form-control"  placeholder="Enter Email" required="">
+                <input type="email" name="email" class="form-control"   required="">
                 <label for="exampleInputEmail1">phone number</label>
                 <input type="text" name="phone_number" class="form-control"  placeholder="Enter Number" required="">
                 <label for="exampleInputEmail1">addres</label>
@@ -76,7 +73,7 @@
             </div>
           <div class="modal-footer justify-content-between">
             <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-            <button type="sumbit" class="btn btn-primary">Save changes</button>
+            <button type="submit" class="btn btn-primary">Submit</button>
           </div>
         </from>
         </div>
@@ -87,5 +84,39 @@
 
 @endsection
 @section('js')
+<script type="text/javascript">
+ var controller = new Vue({
+        el : "#controller",
+        data: {
+            input: {},
+            actionUrl:'{{ url('authors') }}',
+            status:false,
+        },
+        methods: {
+            addData() {
+                this.actionUrl = '{{ url('authors') }}';
+                this.input= {};
+                this.status=false;
+                $('#exampleModal').modal();
+            },
+            editData(data) {
+                // console.log(data);
+                this.actionUrl = '{{ url('authors') }}'+'/'+data.id ;
+                this.input=data;
+                this.status=true;
+                $('#exampleModal').modal();
+            },
+            deleteData(id) {
+                // console.log(id);
+                this.actionUrl =  '{{ url('authors') }}'+'/'+id ;
+                if(confirm("Are you sure ?"))
+                {
+                    axios.post(this.actionUrl, {_method: 'DELETE'}).then(response => { location.reload();
+                     });
+                }
+            },
+        }
+    })
+  </script>
 
 @endsection

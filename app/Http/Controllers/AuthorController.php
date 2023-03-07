@@ -41,12 +41,14 @@ class AuthorController extends Controller
      */
     public function store(Request $request)
     {
+      
         $this->validate($request,[
             'name' => ['required'],
             'email' => ['required'],
             'phone_number' => ['required'],
             'addres' => ['required'],
         ]);
+    
         Author::create($request->all());
 
         return redirect('authors');

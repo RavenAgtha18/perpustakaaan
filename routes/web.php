@@ -40,7 +40,4 @@ Route::put('/publishers/{publisher}', [App\Http\Controllers\PublisherController:
 Route::delete('/publishers/{publisher}', [App\Http\Controllers\PublisherController::class, 'destroy']);
 
 Route::resource('/authors', App\Http\Controllers\AuthorController::class);
-Route::resource('authors', 'App\Http\Controllers\AuthorController');
-
-
 
