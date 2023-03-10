@@ -17,7 +17,8 @@ class publisherController extends Controller
       
         $publishers = publisher ::all();
         // return $catalogs;
-        return view('admin.publisher.index', compact('publishers'));
+        return view('admin.publisher', compact('publishers'));
+   
     }
 
     /**
@@ -44,6 +45,7 @@ class publisherController extends Controller
         publisher::create($request->all());
 
         return redirect('publishers');
+        
     }
 
     /**
@@ -74,6 +76,7 @@ class publisherController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @param  \App\Models\Publisher  $publisher
      * @return \Illuminate\Http\Response
+     * 
      */
     public function update(Request $request, Publisher $publisher)
     {
