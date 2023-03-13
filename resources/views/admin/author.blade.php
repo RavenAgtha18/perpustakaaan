@@ -24,6 +24,8 @@
                 <th>email</th>
                 <th>phone number</th>
                 <th>addres</th>
+                <th>option</th>
+
                 
               </tr>
             </thead>
