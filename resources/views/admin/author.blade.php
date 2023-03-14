@@ -10,7 +10,8 @@
 @section('content')
 <div id="controller">
   <div class="row">
-
+    <div class="col-12">
+    
     <div class="card">
         <div class="card-header"> <a href="#" @click="addData()" type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">crete new </a>
         </div>
@@ -29,29 +30,14 @@
                 
               </tr>
             </thead>
-            <tbody>
-                @foreach ($authors as $key => $author)
-                    
-                <tr>
-                    <td>{{ $key+1 }}</td>
-                    <td>{{ $author->name }}</td>
-                    <td>{{ $author->email }}</td>
-                    <td>{{ $author->phone_number }}</td>
-                    <td>{{ $author->addres }}</td>
-                    <td class="text-center">
-                      <a href="#" @click="editData({{ $author }})" class="btn btn-sm btn-warning" >Edit</a>
-                      <a href="#" @click="deleteData({{ $author->id }})" class="btn btn-sm btn-danger">Delete</a>
-                    </td>
-                </tr>
-                @endforeach
-            </tbody>
+           
           </table>
         </div>
     <!-- /.card-body -->
     <div class="modal fade" id="modal-default">
       <div class="modal-dialog">
         <div class="modal-content">
-          <form method="post" :action="actionUrl" autocomplete="off">
+          <form method="post" :action="actionUrl" autocomplete="off" @submit="submitForm($event, data.id)">
          
             <div class="modal-header">
               <h4 class="modal-title">author</h4>
@@ -90,6 +76,7 @@
         </div>
       </div>
     </div>
+    </div>
   </div>
 </div>
 @endsection
@@ -109,7 +96,99 @@
 <script src="{{ asset('assets/plugins/datatables-buttons/js/buttons.print.min.js') }}"></script>
 <script src="{{ asset('assets/plugins/datatables-buttons/js/buttons.colVis.min.js') }}"></script>
 
+
+
 <script type="text/javascript">
+var actionUrl = '{{ url('authors') }}';
+        var apiUrl = '{{ url('api/authors') }}';
+        var columns = [  
+            {data: 'DT_RowIndex', class: 'text-center', orderable: true},   
+            {data: 'name', class: 'text-center', orderable: true},
+            {data: 'email', class: 'text-center', orderable: true},
+            {data: 'phone_number', class: 'text-center', orderable: true},
+            {data: 'addres', class: 'text-center', orderable: true},
+            {
+                render: function(index, row, data, meta) {
+                    return `
+                <a href="#" class="btn btn-primary btn-sm bi bi-pencil-square" onclick="controller.editData(event, ${meta.row})">
+                  Edit
+                </a>
+                <a href="#" class="btn btn-danger btn-sm bi bi-trash" onclick="controller.deleteData(event, ${data.id})">
+                  Delete
+                </a>`;
+                },
+                orderable: false,
+                width: '200px',
+                class: 'text-center'
+            },
+        ];
+
+        var controller = new Vue({
+            el: '#controller',
+            data: {
+                datas: [],
+                data: {},
+                actionUrl,
+                apiUrl,
+                editStatus: false,
+            },
+            mounted: function() {
+                this.datatable();
+            },
+            methods: {
+                datatable() {
+                    const _this = this;
+                    _this.table = $('#datatable').DataTable({
+                        ajax: {
+                            url: _this.apiUrl,
+                            type: 'GET',
+                        },
+                        columns
+                    }).on('xhr', function() {
+                        _this.datas = _this.table.ajax.json().data;
+                    });
+                },
+                addData() {
+              this.data = {};
+              this.editStatus = false;
+             
+              $('#modal-default').modal();
+               
+             },
+             editData(event, row) {
+              this.data = this.datas[row];
+             this.editStatus = true;
+           
+              $('#modal-default').modal();
+              
+             },
+             deleteData(event, id) {
+                    if (confirm('Are you sure?')) {
+                        $(event.target).parents('tr').remove();
+                        axios.post(this.actionUrl + '/' + id, {
+                            _method: 'DELETE'
+                        }).then(response => {
+                            alert('Data has benn removed');
+                        });
+                    }
+                },
+             submitForm(event, id) {
+                    event.preventDefault();
+                    const _this = this;
+                    var actionUrl = !this.editStatus ? this.actionUrl : this.actionUrl + '/' + id;
+                    axios.post(actionUrl, new FormData($(event.target)[0])).then(response => {
+                        $('#modal-default').modal('hide');
+                        _this.table.ajax.reload();
+                    });
+                },
+              }
+        });
+
+</script>
+
+
+
+{{-- <script type="text/javascript">
  $(function () {
       $("#datatable").DataTable();
     });
@@ -149,6 +228,6 @@
              },
          }
      })
-   </script>
+   </script> --}}
 
 @endsection

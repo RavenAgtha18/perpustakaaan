@@ -10,6 +10,7 @@
 @section('content')
 <div id="controller">
   <div class="row">
+    <div class="col-12">
 
     <div class="card">
         <div class="card-header"> <a href="#" @click="addData()" type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">crete new </a>
@@ -30,20 +31,7 @@
               </tr>
             </thead>
             <tbody>
-                @foreach ($publishers as $key => $publisher)
-                    
-                <tr>
-                    <td>{{ $key+1 }}</td>
-                    <td>{{ $publisher->name }}</td>
-                    <td>{{ $publisher->email }}</td>
-                    <td>{{ $publisher->phone_number }}</td>
-                    <td>{{ $publisher->addres }}</td>
-                    <td class="text-center">
-                      <a href="#" @click="editData({{ $publisher }})" class="btn btn-sm btn-warning" >Edit</a>
-                      <a href="#" @click="deleteData({{ $publisher->id }})" class="btn btn-sm btn-danger">Delete</a>
-                    </td>
-                </tr>
-                @endforeach
+               
             </tbody>
           </table>
         </div>
@@ -91,6 +79,7 @@
       </div>
     </div>
   </div>
+  </div>
 </div>
 @endsection
 
@@ -110,45 +99,33 @@
 <script src="{{ asset('assets/plugins/datatables-buttons/js/buttons.colVis.min.js') }}"></script>
 
 <script type="text/javascript">
- $(function () {
-      $("#datatable").DataTable();
-    });
- </script>
+  var actionUrl = '{{ url('publishers') }}';
+          var apiUrl = '{{ url('api/publishers') }}';
+          var columns = [  
+              {data: 'DT_RowIndex', class: 'text-center', orderable: true},   
+              {data: 'name', class: 'text-center', orderable: true},
+              {data: 'email', class: 'text-center', orderable: true},
+              {data: 'phone_number', class: 'text-center', orderable: true},
+              {data: 'addres', class: 'text-center', orderable: true},
+              {
+                  render: function(index, row, data, meta) {
+                      return `
+                  <a href="#" class="btn btn-primary btn-sm bi bi-pencil-square" onclick="controller.editData(event, ${meta.row})">
+                    Edit
+                  </a>
+                  <a href="#" class="btn btn-danger btn-sm bi bi-trash" onclick="controller.deleteData(event, ${data.id})">
+                    Delete
+                  </a>`;
+                  },
+                  orderable: false,
+                  width: '200px',
+                  class: 'text-center'
+              },
+          ];
 
-<script type="text/javascript">
-  var controller = new Vue({
-         el : "#controller",
-         data: {
-             data : {},
-             actionUrl : '{{ url('publishers') }}',
-             editStatus : false
-         },
-         methods: {
-             addData() {
-              this.data = {};
-              this.editStatus = false;
-              this.actionUrl = '{{ url('publishers') }}';
-              $('#modal-default').modal();
-               
-             },
-             editData(data) {
-             this.data = data;
-             this.editStatus = true;
-             this.actionUrl = '{{ url('publishers') }}'+'/'+data.id;
-              $('#modal-default').modal();
-              
-             },
-             deleteData(id) {
-                 // console.log(id);
-                 this.actionUrl =  '{{ url('publishers') }}'+'/'+id ;
-                 if(confirm("Are you sure ?"))
-                 {
-                     axios.post(this.actionUrl, {_method: 'DELETE'}).then(response => { location.reload();
-                      });
-                 }
-             },
-         }
-     })
-   </script>
+  
+  </script>
+  <script src="{{ asset('js/data.js') }}"></script>
+  
 
 @endsection

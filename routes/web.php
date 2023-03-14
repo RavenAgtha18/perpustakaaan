@@ -33,13 +33,12 @@ Route::get('/catalogs/{catalog}/edit', [App\Http\Controllers\CatalogController::
 Route::put('/catalogs/{catalog}', [App\Http\Controllers\CatalogController::class, 'update']);
 Route::delete('/catalogs/{catalog}', [App\Http\Controllers\CatalogController::class, 'destroy']);
 
-// Route::get('/publishers/create', [App\Http\Controllers\PublisherController::class, 'create']);
-// Route::post('/publishers', [App\Http\Controllers\PublisherController::class, 'store']);
-// Route::get('/publishers/{publisher}/edit', [App\Http\Controllers\PublisherController::class, 'edit']);
-// Route::put('/publishers/{publisher}', [App\Http\Controllers\PublisherController::class, 'update']);
-// Route::delete('/publishers/{publisher}', [App\Http\Controllers\PublisherController::class, 'destroy']);
 
 Route::resource('/authors', App\Http\Controllers\AuthorController::class);
-Route::resource('/publishers', App\Http\Controllers\publisherController::class);
+Route::resource('/publishers', App\Http\Controllers\PublisherController::class);
+Route::resource('/members', App\Http\Controllers\MemberController::class);
 
 
+route::get('/api/authors', [App\Http\Controllers\AuthorController::class, 'api']);
+route::get('/api/publishers', [App\Http\Controllers\PublisherController::class, 'api']);
+route::get('/api/members', [App\Http\Controllers\MemberController::class, 'api']);
