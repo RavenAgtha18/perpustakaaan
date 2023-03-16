@@ -3,18 +3,23 @@
 namespace App\Http\Controllers;
 
 use App\Models\Catalog;
+use App\Models\Book;
 use Illuminate\Http\Request;
 
 class CatalogController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
-     */
+     */ 
     public function index()
     {
-        $catalogs = catalog ::with('book')->get();
+        $catalogs = Catalog::with('books')->get();
         // return $catalogs;
         return view('admin.catalog.index', compact('catalogs'));
     }
@@ -37,10 +42,16 @@ class CatalogController extends Controller
      */
     public function store(Request $request)
     {
-        // $catalog = new catalog;
+
+        //SECURITY
+        $this->validate($request,[
+            'name' => ['required'],
+        ]);
+        // $catalog = new Catalog;
         // $catalog->name = $request->name;
         // $catalog->save();
-        catalog::create($request->all());
+
+        Catalog::create($request->all());
 
         return redirect('catalogs');
     }
@@ -64,8 +75,7 @@ class CatalogController extends Controller
      */
     public function edit(Catalog $catalog)
     {
-
-        return view('admin.catalog.edit', compact('catalog'));
+        return view('admin.catalog.edit', compact('catalog')); 
     }
 
     /**
@@ -77,12 +87,16 @@ class CatalogController extends Controller
      */
     public function update(Request $request, Catalog $catalog)
     {
-      // $catalog = new catalog;
-        // $catalog->name = $request->name;
-        // $catalog->save();
+        
+        //SECURITY
+        $this->validate($request,[
+            'name' => ['required'],
+        ]);
+
+
         $catalog->update($request->all());
 
-        return redirect('catalogs');  
+        return redirect('catalogs');
     }
 
     /**
@@ -95,6 +109,6 @@ class CatalogController extends Controller
     {
         $catalog->delete();
 
-        return redirect('catalogs'); 
+        return redirect('catalogs');
     }
 }

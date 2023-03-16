@@ -49,8 +49,19 @@ class BookController extends Controller
      */
     public function store(Request $request)
     {
-        $this->validate($request, ['isbn', 'title', 'year', 'publisher_id', 'author_id', 'catalog_id', 'qty', 'price' => ['required'],]);
+       $this->validate($request, [
+            'isbn' => ['required'],
+            'title' => ['required'],
+            'year' => ['required'],
+            'publisher_id' => ['required'],
+            'author_id' => ['required'],
+            'catalog_id' => ['required'],
+            'qty' => ['required'],
+            'price' => ['required'],
+        ]);
+        
         Book::create($request->all());
+
         return redirect('books');
     }
 
@@ -85,8 +96,19 @@ class BookController extends Controller
      */
     public function update(Request $request, Book $book)
     {
-        $this->validate($request, ['isbn', 'title', 'year', 'publisher_id', 'author_id', 'catalog_id', 'qty', 'price'  => ['required'],]);
+        $this->validate($request, [
+            'isbn' => ['required'],
+            'title' => ['required'],
+            'year' => ['required'],
+            'publisher_id' => ['required'],
+            'author_id' => ['required'],
+            'catalog_id' => ['required'],
+            'qty' => ['required'],
+            'price' => ['required'],
+        ]);
+
         $book->update($request->all());
+
         return redirect('books');
     }
 
@@ -99,5 +121,6 @@ class BookController extends Controller
     public function destroy(Book $book)
     {
         $book->delete();
+        return redirect('books');
     }
 }

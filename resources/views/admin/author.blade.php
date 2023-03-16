@@ -25,6 +25,7 @@
                 <th>email</th>
                 <th>phone number</th>
                 <th>addres</th>
+                <th>created_at</th>
                 <th>option</th>
 
                 
@@ -107,6 +108,7 @@ var actionUrl = '{{ url('authors') }}';
             {data: 'email', class: 'text-center', orderable: true},
             {data: 'phone_number', class: 'text-center', orderable: true},
             {data: 'addres', class: 'text-center', orderable: true},
+            {data: 'date', class: 'text-center', orderable: true},
             {
                 render: function(index, row, data, meta) {
                     return `
@@ -186,48 +188,5 @@ var actionUrl = '{{ url('authors') }}';
 
 </script>
 
-
-
-{{-- <script type="text/javascript">
- $(function () {
-      $("#datatable").DataTable();
-    });
- </script>
-
-<script type="text/javascript">
-  var controller = new Vue({
-         el : "#controller",
-         data: {
-             data : {},
-             actionUrl : '{{ url('authors') }}',
-             editStatus : false
-         },
-         methods: {
-             addData() {
-              this.data = {};
-              this.editStatus = false;
-              this.actionUrl = '{{ url('authors') }}';
-              $('#modal-default').modal();
-               
-             },
-             editData(data) {
-             this.data = data;
-             this.editStatus = true;
-             this.actionUrl = '{{ url('authors') }}'+'/'+data.id;
-              $('#modal-default').modal();
-              
-             },
-             deleteData(id) {
-                 // console.log(id);
-                 this.actionUrl =  '{{ url('authors') }}'+'/'+id ;
-                 if(confirm("Are you sure ?"))
-                 {
-                     axios.post(this.actionUrl, {_method: 'DELETE'}).then(response => { location.reload();
-                      });
-                 }
-             },
-         }
-     })
-   </script> --}}
 
 @endsection
