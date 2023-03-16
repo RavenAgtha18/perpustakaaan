@@ -4,9 +4,14 @@ namespace App\Http\Controllers;
 
 use App\Models\Publisher;
 use Illuminate\Http\Request;
+use Spatie\FlareClient\Api;
 
-class publisherController extends Controller
+class PublisherController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
     /**
      * Display a listing of the resource.
      *
@@ -14,20 +19,17 @@ class publisherController extends Controller
      */
     public function index()
     {
-      
-       
-        return view('admin.publisher');
-   
+    
+        return view('admin.publisher.publisher');
     }
 
-    public function api()
+    public function api ()
     {
         $publishers = Publisher::all();
         $datatables = datatables()->of($publishers)->addIndexColumn();
-        
+
         return $datatables->make(true);
     }
-
     /**
      * Show the form for creating a new resource.
      *
@@ -35,7 +37,7 @@ class publisherController extends Controller
      */
     public function create()
     {
-        return view('admin.publisher.create');
+        // return view('admin.publisher.create');
     }
 
     /**
@@ -46,14 +48,21 @@ class publisherController extends Controller
      */
     public function store(Request $request)
     {
-        // $publisher = new publisher;
-        // $publisher->name = $request->name;
-        // $publisher->save();
-        publisher::create($request->all());
+
+        $this->validate($request, [
+            'name' => ['required'],
+            'email' => ['required'],
+            'phone_number' => ['required'],
+            'address' => ['required']
+
+        ]);
+        
+        Publisher::create($request->all());
 
         return redirect('publishers');
-        
     }
+
+    
 
     /**
      * Display the specified resource.
@@ -74,7 +83,7 @@ class publisherController extends Controller
      */
     public function edit(Publisher $publisher)
     {
-        return view('admin.publisher.edit', compact('publisher'));
+        // return view('admin.publisher.edit', compact('publisher'));
     }
 
     /**
@@ -83,16 +92,21 @@ class publisherController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @param  \App\Models\Publisher  $publisher
      * @return \Illuminate\Http\Response
-     * 
      */
     public function update(Request $request, Publisher $publisher)
     {
-// $catalog = new catalog;
-        // $catalog->name = $request->name;
-        // $catalog->save();
-        $publisher->update($request->all());
+        
+        $this->validate($request, [
+            'name' => ['required'],
+            'email' => ['required'],
+            'phone_number' => ['required'],
+            'address' => ['required']
 
-        return redirect('publishers'); 
+        ]);
+        
+        $publisher -> update($request->all());
+
+        return redirect('publishers');
     }
 
     /**
@@ -105,6 +119,6 @@ class publisherController extends Controller
     {
         $publisher->delete();
 
-        return redirect('publishers'); 
+        return redirect('publishers');
     }
 }

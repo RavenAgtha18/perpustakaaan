@@ -2,14 +2,16 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Member;
-use App\Models\Book;
-use App\Models\Publisher;
 use App\Models\Author;
+use App\Models\Member;
+
+use App\Models\Book;
 use App\Models\Catalog;
+use App\Models\Publisher;
 use App\Models\Transaction;
-use App\Models\Lend;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use phpDocumentor\Reflection\Types\Null_;
 
 class HomeController extends Controller
 {
@@ -28,123 +30,146 @@ class HomeController extends Controller
      *
      * @return \Illuminate\Contracts\Support\Renderable
      */
+    // public function home()
+    // {
+    //     $total_member = Member::count();
+    //     $total_book = Book::count();
+    //     $total_transaction = Transaction::whereMonth('tgl_pinjam', date('m'))->count();
+    //     $total_publisher = Publisher::count(); 
+
+    //     return view('home', compact('total_book', 'total_member','total_transaction','total_publisher'));
+    // }
+    
     public function index()
     {
-        return view('home');
-        //no 1
-
-        $data = Member::select('*')
-                ->join('users','users.member_id','=','members.id')
-                ->get();
-        //no 2
-        $data2 = Member::select('*')
-                ->leftjoin('users','users.member_id','=','members.id')
-                ->where('users.id',NULL)
-                ->get();
-        //no 3
-        $data3 = Transaction::select('member_id')
-                ->rightjoin('members','member_id','=','transactions.member_id')
-                ->where('transactions.member_id',NULL)
-                ->get();
-         //no 4
-         $data4 = Member::select('members.id','members.name','members.phone_number')
-                ->join('transactions','transactions.member_id','=','members.id')
-                ->orderby('members.id','asc')
-                ->get();
-        //no 5
-        $data5 = Member::select('members.id','members.name','members.phone_number')
-                ->join('transactions','transactions.member_id','=','members.id')
-                ->orderby('members.id','asc')
-                ->where('transactions.member_id', '>', 1)
-                ->get();
-        //no 6
-         $data6  = Member::select('members.name','members.phone_number','members.addres','transactions.date_start','transactions.date_end')
-                ->join('transactions','transactions.member_id','=','members.id')
-                ->orderby('members.id','asc')
-                ->get();
-        //no7
-        $data7  = Member::select('members.name','members.phone_number','members.addres','transactions.date_start','transactions.date_end')
-                ->join('transactions','transactions.member_id','=','members.id')
-                ->orderby('members.id','asc')
-                ->whereRaw('MONTH(transactions.date_end) > 6')
-                ->get();
-        //no 8
-        $data8  = Member::select('members.name','members.phone_number','members.addres','transactions.date_start','transactions.date_end')
-              ->join('transactions', 'transactions.member_id', '=', 'members.id')
-              ->whereMonth('transactions.date_start', '<', '5')
-              ->get();
-        //no 9
-        $data9  = Member::select('members.name','members.phone_number','members.addres','transactions.date_start','transactions.date_end')
-                ->join('transactions', 'transactions.member_id', '=', 'members.id')
-                ->whereMonth('transactions.date_start', '<', '1')
-                ->whereMonth('transactions.date_end', '>', '12')
-                ->get();
-         //no 10
-         $data10  = Member::select('members.name','members.phone_number','members.addres','transactions.date_start','transactions.date_end')
-                ->join('transactions', 'transactions.member_id', '=', 'members.id')
-                ->where('members.addres', 'lIKE', '%Effertzmouth%')
-                ->get();
-         //no 11
-         $data11  = Member::select('members.name','members.phone_number','members.addres','transactions.date_start','transactions.date_end')
-                ->join('transactions', 'transactions.member_id', '=', 'members.id')
-                ->where('members.addres', 'lIKe', '%Effertzmouth%')
-                ->where('members.gender', 'lIKE', '%1%')
-                ->get();
-         //no12
-         $data12  = Member::select('members.name','members.phone_number','members.addres','transactions.date_start','transactions.date_end')
-                ->join('transactions','transactions.member_id','=','members.id')
-                ->orderby('members.id','asc')
-                ->whereRaw('MONTH(transactions.date_end) > 6')
-                ->get();
-          //no 13
-         $data13 = Member::select('members.id','members.name','members.phone_number')
-                ->join('transactions','transactions.member_id','=','members.id')
-                ->orderby('members.id','asc')
-                ->where('transactions.member_id', '>', 1)
-                ->get();
-         //no 14
-         $data14 = Member::select('*')
-                ->leftjoin('users','users.member_id','=','members.id')
-                ->where('users.id',NULL)
-                ->get();
-         //no 15
-        $data15  = Member::select('members.name','members.phone_number','members.addres','transactions.date_start','transactions.date_end')
-                ->join('transactions', 'transactions.member_id', '=', 'members.id')
-                ->whereMonth('transactions.date_start', '<', '5')
-                ->get();
-         //no 16
-         $data16  = Member::select('members.name','members.phone_number','members.addres','transactions.date_start','transactions.date_end')
-                ->join('transactions', 'transactions.member_id', '=', 'members.id')
-                ->where('members.addres', 'lIKe', '%Effertzmouth%')
-                ->where('members.gender', 'lIKE', '%1%')
-                ->get();
-         //no 17
-         $data17  = Member::select('members.name','members.phone_number','members.addres','transactions.date_start','transactions.date_end')
-                ->join('transactions', 'transactions.member_id', '=', 'members.id')
-                ->where('members.addres', 'lIKe', '%Effertzmouth%')
-                ->where('members.gender', 'lIKE', '%1%')
-                ->get();
-        //no 18
-         $data18 = Member::select('members.name','members.phone_number','members.addres','transactions.date_start','transactions.date_end')
-                ->join('transactions','transactions.member_id','=','members.id')
-                ->orderby('members.id','asc')
-                ->whereRaw('MONTH(transactions.date_end) > 6')
-                ->get();
-                
-
-         //no 19
-         $data19  = Member::select('members.name','members.phone_number','members.addres','transactions.date_start','transactions.date_end')
-                ->join('transactions', 'transactions.member_id', '=', 'members.id')
-                ->whereMonth('transactions.date_start', '<', '5')
-                ->get();
-         //no 20
-         $data20  = Member::select('members.name','members.phone_number','members.addres','transactions.date_start','transactions.date_end')
-                ->join('transactions', 'transactions.member_id', '=', 'members.id')
-                ->whereMonth('transactions.date_start', '<', '5')
-                ->get();       
+        // $members = Member::with('user')->get();
+        // $books = Book::with('publisher')->get();
+        // $publishers = Publisher::with('books')->get();
+        // $books = Book::with('author')->get();
+        // $authors = Author::with('books')->get();
+        // $members = Member::with('transaction')->get();
+        // $transactions = Transaction::with('books')->get();
+        // $books = Book::with('transactions')->get();
+        
+        //No.1
+        // $data = DB::table('members')
+        //             ->join('users','users.member_id','=','members.id')
+        //             ->get();
 
 
-        return $data20;
-        return view('home');
+        // $data2 = Member::select('*')
+        //             ->leftjoin('users','users.member_id','=','members.id')
+        //             ->where ('users.id',NULL)
+        //             ->get();
+       
+        // $data2 = DB::table('members')
+        //             ->leftjoin('users','users.member_id','=','members.id')
+        //             ->where ('users.id',NULL)
+        //             ->get();
+       
+       
+                    
+        // $data3 = DB::table('members')
+        //             ->select('members.id','members.name')
+        //             ->leftjoin('transactions','members.id','transactions.member_id')
+        //             ->where ('transactions.member_id', NULL)
+        //             ->get();
+                    
+                    
+        // $data3 = Member::select('members.id','members.name')
+        //             ->leftjoin('transactions','members.id','transactions.member_id')
+        //             ->where ('transactions.member_id', NULL)
+        //             ->get();
+
+        
+        // $data4 = DB::table('members')
+        //             ->select('members.id','members.name','members.phone_number')
+        //             ->join('transactions','members.id','transactions.member_id')
+        //             ->orderBy('transactions.member_id')
+        //             ->get();
+        
+        
+        // $data4 = Member::select('members.id','members.name','members.phone_number')
+        //             ->join('transactions','members.id','transactions.member_id')
+        //             ->orderBy('transactions.member_id')
+        //             ->get();
+        
+        // $data5 = DB::table('members')
+        //             ->select('transactions.member_id','members.name','members.phone_number')
+        //             -> join('transactions','members.id','=','transactions.member_id')
+        //             ->groupBy('member_id')
+        //             ->having ('transactions.member_id','>',1)
+        //             ->get();
+        
+                    
+        // $data5 = Member::select('transactions.member_id','members.phone_number')
+        //             -> join('transactions','members.id','=','transactions.member_id')
+        //             ->groupBy('member_id')
+        //             ->having ('transactions.member_id','>',1)
+        //             ->get();
+        
+        
+        // $data6 = Member::select('members.name','members.phone_number','members.address','transactions.date_start','transactions.date_end')
+        //             ->join('transactions','members.id','=','transactions.members_id')
+        //             ->orderBy('members.name','asc')
+        //             ->get();
+
+        // $data7 = Member::select('members.name','members.phone_number','members.address','transactions.date_start','transactions.date_end')
+        //             ->join('transactions','members.id','=','transactions.members_id')
+        //             ->whereMonth('date_end','=','06')
+        //             ->get();
+
+        // $data8 = Member::select('members.name','members.phone_number','members.address','transactions.date_start','transactions.date_end')
+        //             ->join('transactions','members.id','=','transactions.members_id')
+        //             ->whereMonth('date_start','=','06')
+        //             ->get();
+
+        // $data9 = Member::select('members.name','members.phone_number','members.address','transactions.date_start','transactions.date_end')
+        //             ->join('transactions','members.id','=','transactions.members_id')
+        //             ->whereMonth('date_start','=','06')
+        //             ->whereMonth('date_end','=','06')
+        //             ->orderBy('date_start')
+        //             ->get();
+
+                   
+        // $data10 = Member::select('members.name','members.phone_number','members.address','transactions.date_start','transactions.date_end')
+        //             ->join('transactions','members.id','=','transactions.members_id')
+        //             ->where('members.id','like','%Virginia%')
+        //             ->orderBy('members.name')
+        //             ->get();
+ 
+        // $data11 = Member::select('members.name','members.phone_number','members.address','transactions.date_start','transactions.date_end')
+        //             ->join('transactions','members.id','=','transactions.members_id')
+        //             ->where('members.id','like','%Virginia%')
+        //             ->where('members.gender','L')
+        //             ->orderBy('members.name')
+        //             ->get();
+ 
+                    
+        // $data12 = Author::select('authors.name','authors.phone_number','authors.address','transactions.date_start','transactions.date_end','books.isbn','books.qty')
+        //             ->join('books','authors.id','=','books.author_id')
+        //             ->join('transactions','books.id','=','transactions.book_id')
+        //             ->where('transaction','>','1')
+        //             ->orderBy('authors.name')
+        //             ->get();
+ 
+        // $data13 = Author::select('authors.name','authors.phone_number','authors.address','transactions.date_start','transactions.date_end','books.isbn','books.qty')
+        //             ->join('books','authors.id','=','books.author_id')
+        //             ->join('transactions','books.id','=','transactions.book_id')
+        //             ->orderBy('authors.name')
+        //             ->get();
+ 
+        // $data14 = Author::select('authors.name','authors.phone_number','authors.address','transactions.date_start','transactions.date_end','books.isbn','books.qty')
+        //             ->join('books','authors.id','=','books.author_id')
+        //             ->join('transactions','books.id','=','transactions.book_id')
+        //             ->orderBy('authors.name')
+        //             ->get();
+
+        
+
+
+        
+
+        // return view('home');
     }
 }

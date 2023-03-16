@@ -1,6 +1,18 @@
 <?php
 
+use App\Models\Book;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\BookController;
+use App\Http\Controllers\HomeController;
+use App\Http\Controllers\AdminController;
+use App\Http\Controllers\AuthorController;
+use App\Http\Controllers\MemberController;
+use App\Http\Controllers\CatalogController;
+use App\Http\Controllers\PublisherController;
+use App\Http\Controllers\TransactionController;
+
+// use App\Models\Book;
 
 /*
 |--------------------------------------------------------------------------
@@ -19,27 +31,36 @@ Route::get('/', function () {
 
 Auth::routes();
 
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index']);
-Route::get('/catalogs', [App\Http\Controllers\CatalogController::class, 'index']);
-Route::get('/publishers', [App\Http\Controllers\PublisherController::class, 'index']);
-Route::get('/transactions', [App\Http\Controllers\TransactionController::class, 'index']);
-Route::get('/members', [App\Http\Controllers\MemberController::class, 'index']);
+// Route::get('/home', [App\Http\Controllers\HomeController::class, 'index']);
 
+// Auth::routes();
 
-Route::get('/catalogs/create', [App\Http\Controllers\CatalogController::class, 'create']);
-Route::post('/catalogs', [App\Http\Controllers\CatalogController::class, 'store']);
-Route::get('/catalogs/{catalog}/edit', [App\Http\Controllers\CatalogController::class, 'edit']);
-Route::put('/catalogs/{catalog}', [App\Http\Controllers\CatalogController::class, 'update']);
-Route::delete('/catalogs/{catalog}', [App\Http\Controllers\CatalogController::class, 'destroy']);
+// Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');   
 
+Route::resource('catalogs', CatalogController::class);
+// Route::get('/catalogs',[CatalogController::class, 'index']);
+// Route::get('/catalogs/create',[CatalogController::class, 'create']);
+// Route::post('/catalogs',[CatalogController::class, 'store']);
+// Route::get('/catalogs/{catalog}/edit',[CatalogController::class, 'edit']);
+// Route::put('/catalogs/{catalog}',[CatalogController::class, 'update']);
+// Route::delete('/catalogs/{catalog}',[CatalogController::class, 'destroy']);
+Route::get('/home', [App\Http\Controllers\AdminController::class, 'dashboard'])->name('home');
+Route::resource('books', BookController::class);
+Route::resource('members', MemberController::class);
+Route::resource('publishers', PublisherController::class);
+Route::resource('authors', AuthorController::class);
+Route::resource('transactions', TransactionController::class);
+// Route::resource('dashboard', AdminController::class);
 
-Route::resource('/authors', App\Http\Controllers\AuthorController::class);
-Route::resource('/publishers', App\Http\Controllers\PublisherController::class);
-Route::resource('/members', App\Http\Controllers\MemberController::class);
-Route::resource('/books', App\Http\Controllers\BookController::class);
+Route::get('api/authors', [AuthorController::class, 'api']);
+Route::get('api/publishers', [PublisherController::class, 'api']);
+Route::get('api/members', [MemberController::class, 'api']);
+Route::get('api/books', [BookController::class, 'api']);
 
+// Route::get('create_transaction', function(){
+//     $book = Book::findOrFail(1);
 
-route::get('/api/authors', [App\Http\Controllers\AuthorController::class, 'api']);
-route::get('/api/publishers', [App\Http\Controllers\PublisherController::class, 'api']);
-route::get('/api/members', [App\Http\Controllers\MemberController::class, 'api']);
-route::get('/api/books', [App\Http\Controllers\BookController::class, 'api']);
+//     $book->transactions()->create([
+        
+//     ]);
+// });
