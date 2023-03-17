@@ -50,9 +50,7 @@ class AdminController extends Controller
         $data_donut = Book::select(DB::raw("COUNT(publisher_id) as total"))->groupBy('publisher_id')->orderBy('publisher_id', 'ASC')->pluck('total');
         $label_donut = Publisher::orderBy('publishers.id', 'ASC')->join('books', 'books.publisher_id', 'publishers.id')->groupBy('publishers.name')->pluck('publishers.name');
 
-        // Line
-        // $data_line = Book::select(DB::raw("COUNT(author_id) as total"))->groupBy('author_id')->orderBy('author_id', 'ASC')->pluck('total');
-        // $label_line = Author::orderBy('authors.id', 'ASC')->join('books', 'books.author_id', 'authors.id')->groupBy('authors.name')->pluck('authors.name');
+        
 
 
         // Bar

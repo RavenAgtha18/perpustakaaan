@@ -64,96 +64,67 @@
             </div>
         </div>
 
-        <div class="row d-flex">
-            <div class="col-md-6">
-                <div class="card card-danger">
-                    <div class="card-header">
-                        <h3 class="card-title">Publisher</h3>
-                        <div class="card-tools">
-                            <button type="button" class="btn btn-tool" data-card-widget="collapse">
-                                <i class="fas fa-minus"></i>
-                            </button>
-                            <button type="button" class="btn btn-tool" data-card-widget="remove">
-                                <i class="fas fa-times"></i>
-                            </button>
-                        </div>
-                    </div>
-                    <div class="card-body">
-                        <div class="chartjs-size-monitor">
-                            <div class="chartjs-size-monitor-expand">
-                                <div class=""></div>
-                            </div>
-                            <div class="chartjs-size-monitor-shrink">
-                                <div class=""></div>
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="card card-danger">
+                        <div class="card-header">
+                            <h3 class="card-title">Grafik Penerbit</h3>
+                            <div class="card-tools">
+                                <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                                    <i class="fas fa-minus"></i>
+                                </button>
+                                <button type="button" class="btn btn-tool" data-card-widget="remove">
+                                    <i class="fas fa-times"></i>
+                                </button>
                             </div>
                         </div>
-                        <canvas id="donutChart"
-                            style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%; display: block; width: 487px;"
-                            width="487" height="250" class="chartjs-render-monitor"></canvas>
+                        <div class="card-body">
+                            <canvas id="donutChart" style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%;"></canvas>
+                        </div>
                     </div>
                 </div>
-            </div>
-            <div class="col-md-6">
-                <div class="card card-success">
-                    <div class="card-header">
-                        <h3 class="card-title">Author</h3>
-                        <div class="card-tools">
-                            <button type="button" class="btn btn-tool" data-card-widget="collapse">
-                                <i class="fas fa-minus"></i>
-                            </button>
-                            <button type="button" class="btn btn-tool" data-card-widget="remove">
-                                <i class="fas fa-times"></i>
-                            </button>
+                <div class="col-md-6">
+                    <div class="card card-success">
+                        <div class="card-header">
+                            <h3 class="card-title">Grafik Peminjaman</h3>
+                            <div class="card-tools">
+                                <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                                    <i class="fas fa-minus"></i>
+                                </button>
+                                <button type="button" class="btn btn-tool" data-card-widget="remove">
+                                    <i class="fas fa-times"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <div class="chart">
+                                <canvas id="barChart" style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%;"></canvas>
+                            </div>
                         </div>
                     </div>
-                    <div class="card-body">
-                        <div class="chart">
-                            <div class="chartjs-size-monitor">
-                                <div class="chartjs-size-monitor-expand">
-                                    <div class=""></div>
-                                </div>
-                                <div class="chartjs-size-monitor-shrink">
-                                    <div class=""></div>
-                                </div>
+                </div>
+                <br>
+                <div class="col-md-6">
+                    <div class="card card-danger">
+                        <div class="card-header">
+                            <h3 class="card-title">Grafik Catalog</h3>
+                            <div class="card-tools">
+                                <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                                    <i class="fas fa-minus"></i>
+                                </button>
+                                <button type="button" class="btn btn-tool" data-card-widget="remove">
+                                    <i class="fas fa-times"></i>
+                                </button>
                             </div>
-                            <canvas id="barChart"
-                                style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%; display: block; width: 487px;"
-                                width="487" height="250" class="chartjs-render-monitor"></canvas>
+                        </div>
+                        <div class="card-body">
+                            <canvas id="pieChart" style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%;"></canvas>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-
-
-        <div class="row flex-grow mt-5">
-
-            <div class="col-12 grid-margin stretch-card">
-                <div class="card ">
-                    <div class="card-body">
-                        <div class="row">
-                            <div class="col-lg-12">
-                                <div class="d-flex justify-content-between align-items-center mb-3">
-                                    <div>
-                                        <h4 class="card-title card-title-dash">Transaction Report</h4>
-                                    </div>
-                                    <div>
-                                    </div>
-                                </div>
-                                <div class="mt-3">
-                                    <div class="chart">
-                                        <canvas id="barChart"
-                                            style="min-height:250px; height:550px; max-height:600px; max-width:100%;"></canvas>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-        </div>
-
 
     @endsection
 
@@ -225,6 +196,7 @@
                             data: barChartData,
 
                         })
+                    });
         </script>
 
     @endsection
