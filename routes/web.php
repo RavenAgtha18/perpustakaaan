@@ -45,6 +45,8 @@ Route::resource('catalogs', CatalogController::class);
 // Route::put('/catalogs/{catalog}',[CatalogController::class, 'update']);
 // Route::delete('/catalogs/{catalog}',[CatalogController::class, 'destroy']);
 Route::get('/home', [App\Http\Controllers\AdminController::class, 'dashboard'])->name('home');
+
+
 Route::resource('books', BookController::class);
 Route::resource('members', MemberController::class);
 Route::resource('publishers', PublisherController::class);
@@ -56,6 +58,7 @@ Route::get('api/authors', [AuthorController::class, 'api']);
 Route::get('api/publishers', [PublisherController::class, 'api']);
 Route::get('api/members', [MemberController::class, 'api']);
 Route::get('api/books', [BookController::class, 'api']);
+Route::get('api/transactions', [TransactionController::class, 'api']);
 
 // Route::get('create_transaction', function(){
 //     $book = Book::findOrFail(1);

@@ -37,15 +37,7 @@
                             </table>
                         </div>
 
-                        {{-- <div class="card-footer clearfix px-2">
-                            <ul class="pagination pagination-sm float-right">
-                                <li class="page-item"><a class="page-link" href="#">&laquo;</a></li>
-                                <li class="page-item"><a class="page-link" href="#">1</a></li>
-                                <li class="page-item"><a class="page-link" href="#">2</a></li>
-                                <li class="page-item"><a class="page-link" href="#">3</a></li>
-                                <li class="page-item"><a class="page-link" href="#">&raquo;</a></li>
-                            </ul>
-                        </div> --}}
+                       
                     </div>
                 </div>
                 <div class="modal fade" id="modal-default">
@@ -79,7 +71,7 @@
                                             placeholder="Enter phone number" required>
                                     </div>
                                     <div class="form-group">
-                                        <label>Addres</label>
+                                        <label>Address</label>
                                         <input type="text" class="form-control" name="addres" :value="data.addres" placeholder="Enter addres"
                                             required>
                                     </div>
@@ -128,10 +120,10 @@
         {data: 'addres', class: 'text-center', orderable: true},
         {render: function(index, row, data, meta) {
             return `
-            <a href="#" class="btn btn-primary btn-sm bi bi-pencil-square" onclick="controller.editData(event, ${meta.row})">
+            <a href="#" class="btn btn-primary btn-sm bi bi-pencil-square" onclick="controller.editData(event, ${meta.row})">Edit
              </a>
             
-            <a href="#" class="btn btn-danger btn-sm bi bi-trash" onclick="controller.deleteData(event, ${data.id})">
+            <a href="#" class="btn btn-danger btn-sm bi bi-trash" onclick="controller.deleteData(event, ${data.id})">Delete
              </a>`;
         }, orderable: false, width:'100px', class:'text-center'},
     ];

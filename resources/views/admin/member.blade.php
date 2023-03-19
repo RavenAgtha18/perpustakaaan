@@ -16,12 +16,7 @@
                     <div class="card-header">
                         <a href="" @click="addData()" data-toggle="modal" class="btn btn-sm btn-primary pull-right">Create New member</a>
                     </div>
-                    <div class="col-md-2">
-                        <select class="form-control" name="gender">
-                            <option value="0"> All Gender</option>
-                            <option value="M"> Men</option>
-                            <option value="W"> Women</option>
-                        </select>
+             
                     </div>
                     <br><br>
                     <div class="card-body table-responsive p-0">
@@ -81,7 +76,9 @@
                         <div class="form-group">
                             <label>Email</label>
                             <input type="text" class="form-control" name="email" :value="data.email" required="">
+
                         </div>
+                        
                     </div>
                     <div class="modal-footer justify-content-between">
                         <button type="submit" class="btn btn-default" data-dismiss="modal">Close</button>
@@ -150,14 +147,6 @@
     ];
 </script>
 <script src="{{asset('js/data.js')}}"></script>
-<script type="text/javascript">
-    $('select[name=gender]').on('change', function() {
-        gender = $('select[name=gender]').val();
-        if (gender == 0) {
-            controller.table.ajax.url(apiUrl).load();
-        } else {
-            controller.table.ajax.url(apiUrl + '?gender=' + gender).load();
-        }
-    });
-</script>
+
+
 @endsection

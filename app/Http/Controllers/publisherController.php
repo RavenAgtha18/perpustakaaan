@@ -53,7 +53,7 @@ class PublisherController extends Controller
             'name' => ['required'],
             'email' => ['required'],
             'phone_number' => ['required'],
-            'address' => ['required']
+            'addres' => ['required']
 
         ]);
         
@@ -100,7 +100,7 @@ class PublisherController extends Controller
             'name' => ['required'],
             'email' => ['required'],
             'phone_number' => ['required'],
-            'address' => ['required']
+            'addres' => ['required']
 
         ]);
         

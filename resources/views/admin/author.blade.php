@@ -72,7 +72,7 @@
               <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
               <button type="submit" class="btn btn-primary">Submit</button>
             </div>
-          </from>
+          </form>
           </div>
         </div>
       </div>
