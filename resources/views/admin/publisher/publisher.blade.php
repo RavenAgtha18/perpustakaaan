@@ -186,59 +186,5 @@
     });
 </script>
 
-{{-- <script>
-    $(function () {
-      $("#datatable").DataTable();
-        "responsive": true, "lengthChange": false, "autoWidth": false,
-        "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
-      }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
-      $('#example2').DataTable({
-        "paging": true,
-        "lengthChange": false,
-        "searching": false,
-        "ordering": true,
-        "info": true,
-        "autoWidth": false,
-        "responsive": true,
-      });
-    });
-  </script> --}}
 
-    {{-- <script type="text/javascript">
-        var controller = new Vue ({
-            el : '#controller',
-            data: {
-                data: {},
-                actionUrl: '{{ url('publishers') }}',
-                editStatus : false
-            },
-            mounted: function() {
-
-            },
-            methods: {
-                addData() {
-                    this.data = {};
-                    this.actionUrl = '{{ url('publishers') }}';
-                    this.editStatus = false;
-                    $('#modal-default').modal()
-                },
-                editData(data) {
-                    this.data = data;
-                    this.actionUrl = '{{ url('publishers') }}'+'/'+data.id;
-                    this.editStatus = true;
-                    $('#modal-default').modal()
-
-                },
-                deleteData(id) {
-                    this.actionUrl = '{{ url('publishers') }}'+'/'+id;
-                    if(confirm('Are you sure?')) {
-                        axios.post(this.actionUrl, {_method : "DELETE"}). then(response=>{
-                            location.reload();
-                            });
-                        }  
-                    }
-                }     
-            });
-        
-    </script> --}}
 @endsection

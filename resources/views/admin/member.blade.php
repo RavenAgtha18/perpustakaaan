@@ -1,152 +1,223 @@
 @extends('layouts.admin')
-@section('header','Member')
+
+@section('header', 'Data Member')
+
 @section('css')
-<!-- Datatables -->
-<link rel="stylesheet" href="{{asset('assets/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css')}}">
-<link rel="stylesheet" href="{{asset('assets/plugins/datatables-responsive/css/responsive.bootstrap4.min.css')}}">
-<link rel="stylesheet" href="{{asset('assets/plugins/datatables-buttons/css/buttons.bootstrap4.min.css')}}">
+  <!-- DataTables -->
+  <link rel="stylesheet" href="{{ asset('assets/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css') }}">
+  <link rel="stylesheet" href="{{ asset('assets/plugins/datatables-responsive/css/responsive.bootstrap4.min.css') }}">
+  <link rel="stylesheet" href="{{ asset('assets/plugins/datatables-buttons/css/buttons.bootstrap4.min.css') }}">
 @endsection
+
 @section('content')
-<br><br>
 <div id="controller">
-    <div class="row">
-        <div class="col-12">
-            <div class="card">
-                <div class="card-header">
+    <div class="container">
+        <div class="row">
+            <div class="col-md">
+                <div class="card">
                     <div class="card-header">
-                        <a href="" @click="addData()" data-toggle="modal" class="btn btn-sm btn-primary pull-right">Create New member</a>
+                        <div class="row">
+                            <div class="col-md-10">
+                                <a href="#" @click="addData()" class="btn btn-sm btn-primary">
+                                    <i class="fa fa-plus"></i>
+                                    Add New Member</a>
+                            </div>
+                            <div class="col-md-2">
+                                <select class="form-control" name="gender">
+                                    <option value="0">All Gender</option>
+                                    <option value="1">Female</option>
+                                    <option value="2">Male</option>
+                                </select>
+                            </div>
+                        </div>
                     </div>
-             
-                    </div>
-                    <br><br>
-                    <div class="card-body table-responsive p-0">
-                        <table id="datatable" class="table table-head-fixed text-nowrap table-bordered table-striped">
+
+                    <div class="card-body p-3">
+                        <table id="datatable" class="table table-hover table-bordered">
                             <thead>
-                                <tr>
-                                    <th>No</th>
+                                <tr class="text-center">
+                                    <th style="width: 10px">No</th>
                                     <th>Name</th>
                                     <th>Gender</th>
+                                    <th>Email</th>
                                     <th>Phone Number</th>
                                     <th>Addres</th>
-                                    <th>Email</th>
-                                    <th class="text-center">Action</th>
+                                    <th>Action</th>
                                 </tr>
-                            </thead>
-                            <tbody>
-                            </tbody>
+                            </thead>                           
                         </table>
                     </div>
+
                 </div>
             </div>
-        </div>
-    </div>
-    <div class="modal fade" id="modal-default">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <form method="post" :action="actionUrl" autocomplete="off" @submit="submitForm($event, data.id)">
-                    <div class=" modal-header">
-                        <h4 class="modal-title"> member</h4>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                    <div class="modal-body">
-                        @csrf
-                        <input type="hidden" name="_method" value="PUT" v-if="editStatus">
-                        <div class="form-group">
-                            <label>Name</label>
-                            <input type="text" class="form-control" name="name" :value="data.name" required="">
-                        </div>
-                        <div class="form-group">
-                            <label for="name" class=" control-label">Jenis Kelamin</label>
-                            <select name="gender" :value="data.gender" id="gender" class="form-control required">
-                                <option value="">Select Gender</option>
-                                <option value="M">Men</option>
-                                <option value="W">Women</option>
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label>Phone Number</label>
-                            <input type="text" class="form-control" name="phone_number" :value="data.phone_number" required="">
-                        </div>
-                        <div class="form-group">
-                            <label>Addres</label>
-                            <input type="text" class="form-control" name="addres" :value="data.addres" required="">
-                        </div>
-                        <div class="form-group">
-                            <label>Email</label>
-                            <input type="text" class="form-control" name="email" :value="data.email" required="">
+            <div class="modal fade" id="modal-default">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <form :action="actionUrl" method="post" autocomplete="off" @submit="submitForm(event, data.id)">
+                            <div class="modal-header">
+                                <h4 class="modal-title">Member</h4>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                @csrf
 
-                        </div>
-                        
+                                <input type="hidden" name="_method" value="PUT" v-if="editStatus">
+
+                                <div class="form-group">
+                                    <label>Name</label>
+                                    <input type="text" class="form-control" name="name" :value="data.name" placeholder="Enter name"
+                                        required>
+                                </div>
+                            
+                                <div class="form-group">
+                                    <label>Gender</label>
+                                    <input type="text" class="form-control" name="gender" :value="data.gender" placeholder="Enter gender"
+                                        required>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label>Phone Number</label>
+                                    <input type="text" class="form-control" name="phone_number" :value="data.phone_number"
+                                        placeholder="Enter phone number" required>
+                                </div>
+                                <div class="form-group">
+                                    <label>Addres</label>
+                                    <input type="text" class="form-control" name="addres" :value="data.addres" placeholder="Enter addres"
+                                        required>
+                                </div>
+                                <div class="form-group">
+                                    <label>Email</label>
+                                    <input type="text" class="form-control" name="email" :value="data.email" placeholder="Enter email"
+                                        required>
+                                </div>
+                            </div>
+                            <div class="modal-footer justify-content-between">
+                                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                <button type="submit" class="btn btn-primary">Save changes</button>
+                            </div>
+                        </form>
                     </div>
-                    <div class="modal-footer justify-content-between">
-                        <button type="submit" class="btn btn-default" data-dismiss="modal">Close</button>
-                        <button type="submit" class="btn btn-primary">Save changes</button>
-                    </div>
-                </form>
+
+                </div>
+
             </div>
+
         </div>
     </div>
-</div>
+</div>    
 @endsection
+
 @section('js')
-<!-- Datatables & Plugins -->
-<script src="{{asset('assets/plugins/datatables/jquery.dataTables.min.js')}}"></script>
-<script src="{{asset('assets/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js')}}"></script>
-<script src="{{asset('assets/plugins/datatables-responsive/js/dataTables.responsive.min.js')}}"></script>
-<script src="{{asset('assets/plugins/datatables-responsive/js/responsive.bootstrap4.min.js')}}"></script>
-<script src="{{asset('assets/plugins/datatables-buttons/js/dataTables.buttons.min.js')}}"></script>
-<script src="{{asset('assets/plugins/datatables-buttons/js/buttons.bootstrap4.min.js')}}"></script>
-<script src="{{asset('assets/plugins/jszip/jszip.min.js')}}"></script>
-<script src="{{asset('assets/plugins/pdfmake/pdfmake.min.js')}}"></script>
-<script src="{{asset('assets/plugins/pdfmake/vfs_fonts.js')}}"></script>
-<script src="{{asset('assets/plugins/datatables-buttons/js/buttons.html5.min.js')}}"></script>
-<script src="{{asset('assets/plugins/datatables-buttons/js/buttons.print.min.js')}}"></script>
-<script src="{{asset('assets/plugins/datatables-buttons/js/buttons.colVis.min.js')}}"></script>
+    <!-- DataTables  & Plugins -->
+<script src="{{ asset('assets/plugins/datatables/jquery.dataTables.min.js') }}"></script>
+<script src="{{ asset('assets/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js') }}"></script>
+<script src="{{ asset('assets/plugins/datatables-responsive/js/dataTables.responsive.min.js') }}"></script>
+<script src="{{ asset('assets/plugins/datatables-responsive/js/responsive.bootstrap4.min.js') }}"></script>
+<script src="{{ asset('assets/plugins/datatables-buttons/js/dataTables.buttons.min.js') }}"></script>
+<script src="{{ asset('assets/plugins/datatables-buttons/js/buttons.bootstrap4.min.js') }}"></script>
+<script src="{{ asset('assets/plugins/jszip/jszip.min.js') }}"></script>
+<script src="{{ asset('assets/plugins/pdfmake/pdfmake.min.js') }}"></script>
+<script src="{{ asset('assets/plugins/pdfmake/vfs_fonts.js') }}"></script>
+<script src="{{ asset('assets/plugins/datatables-buttons/js/buttons.html5.min.js') }}"></script>
+<script src="{{ asset('assets/plugins/datatables-buttons/js/buttons.print.min.js') }}"></script>
+<script src="{{ asset('assets/plugins/datatables-buttons/js/buttons.colVis.min.js') }}"></script>
 
 <script type="text/javascript">
-    var actionUrl = "{{url('members')}}";
-    var apiUrl = "{{url('api/members')}}";
+    var actionUrl = '{{ url('members') }}';
+    var apiUrl = '{{ url('api/members') }}';
 
-    var columns = [{
-            data: 'DT_RowIndex',
-            orderable: true
-        },
-        {
-            data: 'name',
-            orderable: true
-        },
-        {
-            data: 'gender',
-            orderable: true
-        },
-        {
-            data: 'phone_number',
-            orderable: true
-        },
-        {
-            data: 'addres',
-            orderable: true
-        },
-        {
-            data: 'email',
-            orderable: true
-        },
-        {
-            render: function(index, row, data, meta) {
-                return ` 
-                <a href="#" class="btn btn-warning btn-sm" onclick="controller.editData (event,${meta.row})"> Edit </a> 
-                <a class="btn btn-danger btn-sm" onclick="controller.deleteData(event,${data.id})">Delete </a>
-                `;
-            },
-            orderable: false,
-            width: '200px',
-            class: 'text-center'
-        },
+    var columns = [
+        {data: 'DT_RowIndex', class: 'text-center', orderable: true},
+        {data: 'name', class: 'text-center', orderable: true},
+        {data: 'gender', class: 'text-center', orderable: true},
+        {data: 'email', class: 'text-center', orderable: true},
+        {data: 'phone_number', class: 'text-center', orderable: true},
+        {data: 'addres', class: 'text-center', orderable: true},
+        {render: function(index, row, data, meta) {
+            return `
+            <a href="#" class="btn btn-primary btn-sm bi bi-pencil-square" onclick="controller.editData(event, ${meta.row})">
+                edit
+             </a>
+            
+            <a href="#" class="btn btn-danger btn-sm bi bi-trash" onclick="controller.deleteData(event, ${data.id})">
+                delete
+             </a>`;
+        }, orderable: false, width:'100px', class:'text-center'},
     ];
+
+    var controller = new Vue({
+        el: '#controller',
+        data: {
+            datas: [],
+            data: {},
+            actionUrl,
+            apiUrl,
+            editStatus:false,
+        },
+        mounted: function() {
+            this.datatable();
+        },
+        methods: {
+            datatable() {
+                const _this = this;
+                _this.table = $('#datatable').DataTable({
+                    ajax: {
+                            url: _this.apiUrl,
+                            type: 'GET',
+                        },
+                        columns
+                    }).on('xhr', function() {
+                        _this.datas = _this.table.ajax.json().data;
+                    });
+                },
+                addData() {
+                    this.data = {};
+                    this.editStatus = false;
+                    $('#modal-default').modal();
+                },
+                editData(event, row) {
+                    this.data = this.datas[row];
+                    this.editStatus = true;
+                    $('#modal-default').modal();
+                },
+                deleteData(event, id) {
+                    if (confirm('Are you sure?')) {
+                        $(event.target).parents('tr').remove();
+                        axios.post(this.actionUrl + '/' + id, {
+                            _method: 'DELETE'
+                        }).then(response => {
+                            alert('Data has been removed');
+                        });
+                    }
+                },
+                submitForm(event, id) {
+                    event.preventDefault();
+                    const _this = this;
+                    var actionUrl = !this.editStatus ? this.actionUrl : this.actionUrl + '/' + id;
+                    axios.post(actionUrl, new FormData($(event.target)[0])).then(response => {
+                        $('#modal-default').modal('hide');
+                        _this.table.ajax.reload();
+                    });
+                },
+            }
+    });
 </script>
-<script src="{{asset('js/data.js')}}"></script>
+
+<script src="{{ asset('js/data.js') }}"></script>
+<script type="text/javascript">
+
+    $('select[name=gender]').on('change', function() {
+        gender = $('select[name=gender]').val();
+
+        if( gender == 0) {
+            controller.table.ajax.url(apiUrl).load();
+        }else {
+            controller.table.ajax.url(apiUrl + '?gender=' +gender).load();
+        }
+    });
+</script>
 
 
 @endsection
