@@ -10,7 +10,10 @@ use App\Models\Publisher;
 use App\Models\Transaction;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Spatie\Permission\Models\Role;
 use App\Http\Controllers\Controller;
+use App\Models\User;
+use Spatie\Permission\Models\Permission;
 
 class AdminController extends Controller
 {
@@ -48,9 +51,12 @@ class AdminController extends Controller
         $total_publishers = Publisher::count();
         // Doughnut
         $data_donut = Book::select(DB::raw("COUNT(publisher_id) as total"))->groupBy('publisher_id')->orderBy('publisher_id', 'ASC')->pluck('total');
+        dd($data_donut);
         $label_donut = Publisher::orderBy('publishers.id', 'ASC')->join('books', 'books.publisher_id', 'publishers.id')->groupBy('publishers.name')->pluck('publishers.name');
 
-        
+        // Line
+        // $data_line = Book::select(DB::raw("COUNT(author_id) as total"))->groupBy('author_id')->orderBy('author_id', 'ASC')->pluck('total');
+        // $label_line = Author::orderBy('authors.id', 'ASC')->join('books', 'books.author_id', 'authors.id')->groupBy('authors.name')->pluck('authors.name');
 
 
         // Bar
@@ -90,6 +96,44 @@ class AdminController extends Controller
         return view('admin.publisher.publisher');
     }
     
+    public function author(){
+        $data_author = Author::all();
+
+        return view('admin.author');
+    }
+
+    public function member(){
+        return view('admin.member');
+    }
+
+    public function book(){
+        return view('admin.book.index');
+    }
+
+    public function transaction(){
+
+            $data_book = Book::all();
+            $data_member = Member::all();
+
+            return view('admin.transaction.index', compact('data_member', 'data_book'));
+    }
+
+    public function test_spatie(){
+
+
+        // $role = Role::create(['name' => 'admin']);
+        // $permission = Permission::create(['name' => 'index peminjaman']);
+
+        // $role->givePermissionTo($permission);
+        // $permission->assignRole($role);
+
+        // $user = User::where('id', 5)->first();
+        // $user->assignRole('admin');
+        // return $user;
+
+        // $user = User::with('roles')->get();
+        // return $user;
+    }
 
     public function create()
     {

@@ -37,7 +37,7 @@ class PublisherController extends Controller
      */
     public function create()
     {
-        // return view('admin.publisher.create');
+       
     }
 
     /**
@@ -100,7 +100,7 @@ class PublisherController extends Controller
             'name' => ['required'],
             'email' => ['required'],
             'phone_number' => ['required'],
-            'addres' => ['required']
+            'addres' => ['required'],
 
         ]);
         

@@ -78,6 +78,11 @@
                                 </div>
                                 
                                 <div class="form-group">
+                                    <label>Email</label>
+                                    <input type="text" class="form-control" name="email" :value="data.email" placeholder="Enter email"
+                                        required>
+                                </div>
+                                <div class="form-group">
                                     <label>Phone Number</label>
                                     <input type="text" class="form-control" name="phone_number" :value="data.phone_number"
                                         placeholder="Enter phone number" required>
@@ -85,11 +90,6 @@
                                 <div class="form-group">
                                     <label>Addres</label>
                                     <input type="text" class="form-control" name="addres" :value="data.addres" placeholder="Enter addres"
-                                        required>
-                                </div>
-                                <div class="form-group">
-                                    <label>Email</label>
-                                    <input type="text" class="form-control" name="email" :value="data.email" placeholder="Enter email"
                                         required>
                                 </div>
                             </div>

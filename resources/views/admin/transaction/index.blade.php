@@ -1,6 +1,6 @@
 @extends('layouts.admin')
 
-@section('header', 'Data Transaksi')
+@section('header', 'Data Transaaction')
 
 @section('css')
     <!-- DataTables -->
@@ -10,10 +10,10 @@
 @endsection
 
 @section('content')
+@role('admin')
 
     <div id="controller">
         <div class="col-md-12">
-            <h2 class="mb-5"> Transactions </h2>
             <div class="card p-3">
                 <div class="card-body">
                     <div class="d-flex justify-content-between mb-3">
@@ -60,6 +60,7 @@
 
 
         </div>
+        @endrole
     @endsection
     @section('js')
         {{-- Data table --}}
